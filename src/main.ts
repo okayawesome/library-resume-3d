@@ -2,6 +2,7 @@ import './style.css';
 import { BOOK } from './book-geometry.ts';
 import { blendPose, chooseMode, frame, type Framing, type Pose, type Viewport } from './camera.ts';
 import type { FaceProjector } from './faces.ts';
+import { Kineograph } from './kino.ts';
 import { QualityController } from './quality.ts';
 import type { BookScene } from './scene.ts';
 import { ScrollController } from './scroll.ts';
@@ -50,6 +51,9 @@ const quality = new QualityController((next) => {
 const forceReducedMotion = new URLSearchParams(window.location.search).get('motion') === 'reduce';
 const reducedMotion = (): boolean => forceReducedMotion || motionQuery.matches;
 
+// Flip-book drawings are built before anything copies the pages for page curls.
+const kino = new Kineograph(faces);
+
 const ui = new ReaderUI({
   faces,
   intro: document.querySelector<HTMLElement>('.intro') as HTMLElement,
@@ -82,7 +86,8 @@ function loadBook(): void {
   Promise.all([import('./scene.ts'), import('./faces.ts')]).then(([{ BookScene }, { FaceProjector }]) => {
     const created = new BookScene(sceneHost, LEAVES, quality.quality);
     book = created;
-    projector = new FaceProjector(bookLayer, faces);
+    // A strip's front is the page leaving (drawing finished); its back is arriving (not started).
+    projector = new FaceProjector(bookLayer, faces, (clone, side) => kino.freeze(clone, side === 'front' ? 'last' : 'first'));
     created.renderer.domElement.addEventListener('webglcontextlost', (event) => {
       // Fall back to the readable layout rather than leaving a blank book.
       event.preventDefault();
@@ -135,6 +140,7 @@ function applyLayout(): void {
     timeline = null;
     framing = null;
     ui.setFlow();
+    kino.showFlow(view.height, reduced);
     if (modeChanged && position) ui.goToFace(position.spread === 0 ? 0 : position.side === 'left' ? 2 * position.spread - 1 : 2 * position.spread, false);
     return;
   }
@@ -149,6 +155,7 @@ function applyLayout(): void {
   projector?.setScale(framing.ppu, framing.pageScale, view.width, view.height);
   book?.setSize(view.width, view.height);
   ui.setTimeline(activeTimeline);
+  kino.setTimeline(activeTimeline);
 
   // Keep the reader on the same page: same units within a timeline, same page across modes.
   let units = previousUnits;
@@ -188,6 +195,7 @@ function renderBook(moving: boolean): void {
   book.render();
   root.classList.add('is-ready');
   ui.update(state, scroll.current);
+  kino.showBook(scroll.current, reduced);
   const opacity = fade.toFixed(3);
   if (bookLayer.style.opacity !== opacity) bookLayer.style.opacity = sceneHost.style.opacity = opacity;
 }
@@ -235,7 +243,14 @@ function requestLayout(): void {
   invalidate();
 }
 
+let flowFrame = 0;
 window.addEventListener('scroll', () => {
+  if (mode === 'flow' && !flowFrame) {
+    flowFrame = window.requestAnimationFrame(() => {
+      flowFrame = 0;
+      kino.showFlow(window.innerHeight, reducedMotion());
+    });
+  }
   scroll.read();
   // A restored scroll position on reload should not flick through the book.
   if (performance.now() - bootTime < 600) scroll.jump();

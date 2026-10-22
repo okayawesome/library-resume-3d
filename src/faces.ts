@@ -54,12 +54,15 @@ export class FaceProjector {
     stripBack: new THREE.Matrix4()
   };
   private ppu = 1;
+  private readonly prepareClone?: (clone: HTMLElement, side: 'front' | 'back') => void;
   /** Faces the reader can currently see (used for focus handling). */
   readonly visible = new Set<number>();
 
-  constructor(layer: HTMLElement, faces: HTMLElement[]) {
+  /** `prepareClone` adjusts each strip's copy of a page (e.g. to freeze its animations). */
+  constructor(layer: HTMLElement, faces: HTMLElement[], prepareClone?: (clone: HTMLElement, side: 'front' | 'back') => void) {
     this.layer = layer;
     this.faces = faces;
+    this.prepareClone = prepareClone;
     this.matrices = faces.map(() => new THREE.Matrix4());
     this.shown = faces.map(() => false);
     this.lifted = faces.map(() => false);
@@ -226,6 +229,7 @@ export class FaceProjector {
         clone.classList.remove('is-shown', 'is-lifted');
         clone.removeAttribute('tabindex');
         clone.style.transform = '';
+        this.prepareClone?.(clone, side);
         el.appendChild(clone);
         root.appendChild(el);
         strips.push({ el, matrix: new THREE.Matrix4(), shown: true });

@@ -1,6 +1,6 @@
 # Anmol Bhandari — 3D Résumé Book
 
-An interactive résumé you read like a physical book, built with **TypeScript, Three.js and Vite**. Scrolling opens the cover and turns the pages; every page is real, selectable, accessible HTML placed onto a WebGL book.
+An interactive résumé you read like a physical book, built with **TypeScript, Three.js and Vite**. Scrolling opens the cover and turns the pages; every page is real, selectable, accessible HTML placed onto a WebGL book. Each page carries a hand-drawn **kineograph** (flip-book) drawing that animates frame by frame as you flip.
 
 ## Run locally
 
@@ -31,6 +31,7 @@ native scroll ─► scroll.ts ─► timeline.ts ─► camera.ts (pose) ─┬
 - **One frame loop.** A single `requestAnimationFrame` loop applies the state to the WebGL scene, the HTML pages and the UI in the same frame, and stops completely when nothing is moving.
 - **Real pages on a real book.** The résumé lives once, in `index.html`, as one `<article class="face">` per page face in reading order. `faces.ts` gives each face one CSS `matrix3d` computed from the same camera as WebGL, so HTML and geometry stay aligned to the pixel. The faces sit *behind* a transparent canvas. For each visible face, `page-light-material.ts` draws a matching mesh that cuts the book open over it and darkens it by the scene's lighting, curl and shadows. Book geometry in front (the cover lifting, a turning page) hides the text behind it correctly, while the text stays selectable and clickable.
 - **The book.** Hardcover boards, a page block that moves from the right stack to the left as you read, a spine that bends as the cover opens, and paper leaves that curl as they turn. A turning leaf bends from its hinge with the free edge leading. Its arc length is preserved, so page content is never stretched (`book-geometry.ts`). While a leaf is in the air its two faces are shown as clipped strips of the page so it can bend; at rest the original, interactive page is shown.
+- **Kineograph drawings.** Each page has a pencil-style flip-book of 12 frames (`kino-scenes.ts`), plus a little runner doodled in the corner of every right-hand page. The frame shown depends on how far you have flipped, never on a clock (`kino.ts`). Scrolling forward flicks the frames on, scrolling back runs them backwards, and stopping holds the frame. Each drawing finishes by the point where its page is read, so a resting page shows the complete picture. Strokes are re-jittered on every frame, so even still lines "boil" like hand-drawn flip-book pages. The page-curl copies keep a single frame.
 - **Camera.** It establishes on the closed cover, approaches as the book opens, and keeps a comfortable reading angle per spread, with small, restrained variations. It eases back slightly while a page is in the air (`camera.ts`).
 
 | File | Responsibility |
@@ -43,6 +44,8 @@ native scroll ─► scroll.ts ─► timeline.ts ─► camera.ts (pose) ─┬
 | `src/faces.ts` | Book controller (HTML): page placement, curl strips, facing |
 | `src/page-light-material.ts` | Shader that lights and cuts out the HTML pages |
 | `src/ui.ts` | DOM transition controller: reader bar, rail, intro, keyboard, links, focus |
+| `src/kino-scenes.ts` | The flip-book drawings: a sketchy SVG pen and 11 scenes, as pure functions of the frame |
+| `src/kino.ts` | Kineograph controller: builds the reels and picks each frame from the scroll position |
 | `src/quality.ts` | Performance controller: device tier, frame-time monitoring, step-down |
 
 ### Layouts
@@ -57,7 +60,7 @@ native scroll ─► scroll.ts ─► timeline.ts ─► camera.ts (pose) ─┬
 
 - All résumé content is semantic HTML in reading order, available to assistive technology at all times, including pages that are not open.
 - Keyboard: skip link, arrow keys, visible focus rings, and focus-driven page turning.
-- `prefers-reduced-motion`: no curl, no camera travel and no smoothing. Each turn becomes a short fade between spreads over the same scroll distance. Where that would need camera pans, the flow layout is used instead.
+- `prefers-reduced-motion`: no curl, no camera travel and no smoothing; flip-book drawings show their finished frame. Each turn becomes a short fade between spreads over the same scroll distance. Where that would need camera pans, the flow layout is used instead.
 
 ### Performance
 
@@ -76,9 +79,9 @@ native scroll ─► scroll.ts ─► timeline.ts ─► camera.ts (pose) ─┬
 
 Each page is an `<article class="face …">` in `index.html`. Face order is fixed by the book's binding:
 
-0 cover · 1 inside cover (ex libris + contents) · 2 About · 3 Skills · 4–6 Experience · 7 Project · 8 Education · 9 Contact · 10 inside back cover (colophon)
+0 cover · 1 inside cover (ex libris + contents) · 2 About · 3 Skills · 4 Deloitte · 5 Deloitte impact · 6 Western Digital · 7 HP · 8 LibraMind · 9 AI engineering · 10 Game · 11 Education · 12 Contact (inside back cover)
 
-Pages have a fixed size (like paper), so keep each page's content roughly the length it is now. To add pages, add faces in pairs (one leaf = front + back); the timeline, rail and contents adapt to the count, but update the page numbers in the contents list.
+Pages have a fixed size (like paper), so keep each page's content roughly the length it is now. A drawing is added with `<figure class="kino" data-kino="<scene>">` (see `SCENES` in `src/kino-scenes.ts`); a corner runner with `<span class="margin-flip">`. To add pages, add faces in pairs (one leaf = front + back); the timeline, rail and contents adapt to the count, but update the page numbers in the contents list.
 
 ## Publish with GitHub Pages
 
@@ -86,7 +89,8 @@ The Vite base path is configured for a repository named `library-resume-3d`. If 
 
 ## Content notes
 
-- Location is listed as **New Delhi, India**.
+- Location is listed as **New Delhi, India**; the Deloitte role is listed in **Hyderabad**, as on the résumé.
 - Western Digital experience explicitly includes testing support for an expansion card for Microsoft Xbox.
-- Python and FastAPI are described as current learning, not as completed professional experience.
+- Python, FastAPI and AI engineering are described as current learning, and the game as a work in progress, not as professional experience.
+- The contact page includes the phone number from the résumé PDF.
 - Review the email, LinkedIn, résumé PDF and all dates before publishing publicly.
