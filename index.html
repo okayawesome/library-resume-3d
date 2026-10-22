@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171612">
+  <meta name="description" content="Anmol Bhandari — performance engineer, software builder, and Python and FastAPI learner. An interactive 3D résumé book.">
+  <title>Anmol Bhandari — A résumé you can read</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <script>
+    // On screens wide enough for the 3D book, hold back the plain page stack until
+    // main.ts has chosen the layout, so it does not flash first. Released after a
+    // few seconds regardless, in case the script never runs.
+    (function () {
+      var root = document.documentElement;
+      if (window.innerWidth < 600) return;
+      root.classList.add('is-pending');
+      setTimeout(function () { root.classList.remove('is-pending'); }, 4000);
+    })();
+  </script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <a class="skip-link" href="#about">Skip to the résumé</a>
+
+  <header class="topbar">
+    <a class="brand" href="#cover" aria-label="Anmol Bhandari — back to the cover"><span class="brand-mark" aria-hidden="true">AB<span>.</span></span><span><strong>Anmol Bhandari</strong><small>PERFORMANCE ENGINEER · BUILDER</small></span></a>
+    <div class="topbar-right"><span class="availability"><i aria-hidden="true"></i> OPEN TO OPPORTUNITIES</span><a class="download-link" href="./resume.pdf" target="_blank" rel="noreferrer">PDF résumé <span aria-hidden="true">↗</span></a></div>
+  </header>
+
+  <section class="intro" aria-labelledby="introTitle">
+    <p class="eyebrow"><span></span> A CAREER, IN CHAPTERS</p>
+    <h1 id="introTitle">A résumé you<br>can <em>read.</em></h1>
+    <p class="intro-copy">Turn the pages to explore the work, systems, and ideas behind my career. Best experienced one chapter at a time.</p>
+    <div class="intro-location"><span class="location-pin" aria-hidden="true">⌖</span> New Delhi, India <span class="intro-divider" aria-hidden="true">/</span> Python &amp; FastAPI learner</div>
+    <div class="reading-hint"><span class="hint-icon" aria-hidden="true">↓</span><span>Scroll to open the book<br><small>or use the ← → keys to turn the pages</small></span></div>
+  </section>
+
+  <!--
+    The résumé itself. Each <article> is one physical page face, in reading order.
+    Without JavaScript (or without WebGL, or on a narrow screen) these render as a
+    simple stack of paper pages. With WebGL, main.ts lays the same elements onto the
+    3D book, so there is only ever one copy of the content.
+  -->
+  <main id="book" class="book-layer" aria-label="Résumé">
+    <article class="face face--cover" id="cover" data-chapter="Cover" aria-label="Cover">
+      <div class="page-inner page-cover">
+        <p class="page-kicker">A PERSONAL EDITION · 2026</p>
+        <h2>Anmol<br>Bhandari</h2>
+        <p class="cover-role">PERFORMANCE ENGINEER<br>SOFTWARE BUILDER · LIFELONG LEARNER</p>
+        <div class="cover-rule"></div>
+        <p class="cover-note">A collection of systems tested,<br>problems explored, and skills in progress.</p>
+        <div class="cover-seal">VOL. 01 <span aria-hidden="true">✳</span> NEW DELHI</div>
+      </div>
+    </article>
+
+    <article class="face face--endpaper" id="contents" data-chapter="Contents" aria-label="Ex libris and contents">
+      <div class="page-inner inside-cover">
+        <p class="page-kicker">EX LIBRIS</p>
+        <h2>Anmol<br>Bhandari</h2>
+        <p class="inside-cover-note">A work in progress —<br>always learning, always building.</p>
+        <nav class="contents" aria-label="Contents">
+          <p class="section-label">CONTENTS</p>
+          <ol>
+            <li><a href="#about"><span>About</span><i aria-hidden="true"></i><em>1</em></a></li>
+            <li><a href="#skills"><span>Skills &amp; learning</span><i aria-hidden="true"></i><em>2</em></a></li>
+            <li><a href="#experience"><span>Experience</span><i aria-hidden="true"></i><em>3</em></a></li>
+            <li><a href="#project"><span>Project · LibraMind</span><i aria-hidden="true"></i><em>6</em></a></li>
+            <li><a href="#education"><span>Education</span><i aria-hidden="true"></i><em>7</em></a></li>
+            <li><a href="#contact"><span>Contact</span><i aria-hidden="true"></i><em>8</em></a></li>
+          </ol>
+        </nav>
+        <div class="cover-seal">NEW DELHI <span aria-hidden="true">✳</span> INDIA</div>
+      </div>
+    </article>
+
+    <article class="face face--page" id="about" data-chapter="About" data-folio="1" aria-labelledby="about-title">
+      <div class="page-inner">
+        <p class="page-kicker">01 · ABOUT</p>
+        <h2 id="about-title">Curiosity is<br>the first tool.</h2>
+        <p class="page-lead">I’m a performance engineer expanding into backend development.</p>
+        <p>My work has centred on understanding what happens when software meets real-world demand: translating requirements into test scenarios, running workloads, analysing results, and communicating findings.</p>
+        <p>That experience taught me to look beyond symptoms, ask better questions, and find the bottleneck behind the numbers.</p>
+        <p>Now I’m applying the same systems mindset to building software. I’m currently learning <strong>Python and FastAPI</strong>, with a focus on APIs, backend structure, and practical application development.</p>
+        <div class="margin-note">MY PRINCIPLE <span>Analyse deeply.<br>Build thoughtfully.</span></div>
+      </div>
+      <span class="folio" aria-hidden="true">1</span>
+    </article>
+
+    <article class="face face--page" id="skills" data-chapter="Skills" data-folio="2" aria-labelledby="skills-title">
+      <div class="page-inner">
+        <p class="page-kicker">02 · SKILLS &amp; LEARNING</p>
+        <h2 id="skills-title">The toolkit is<br>still growing.</h2>
+        <div class="skill-group"><p class="section-label">PROFESSIONAL EXPERIENCE</p><ul class="tag-list" aria-label="Professional tools"><li>LoadRunner Web HTTP/HTML</li><li>TruClient</li><li>LoadRunner Cloud</li><li>LoadRunner Enterprise</li><li>Azure</li><li>AWS</li><li>PostgreSQL</li><li>Azure DevOps</li><li>Fiddler</li><li>Postman</li><li>VS Code</li></ul></div>
+        <div class="learning-panel"><span class="learning-icon" aria-hidden="true">↗</span><div><p class="section-label">CURRENTLY LEARNING</p><h3>Python + FastAPI</h3><p>Practising backend fundamentals, REST endpoints, request validation, and API-driven application design.</p><div class="learning-track" aria-hidden="true"><span></span></div><p class="section-label">IN PROGRESS · HANDS-ON PRACTICE</p></div></div>
+        <p class="fine-print">Python and FastAPI are presented as current learning, not as professional experience.</p>
+      </div>
+      <span class="folio" aria-hidden="true">2</span>
+    </article>
+
+    <article class="face face--page" id="experience" data-chapter="Experience" data-folio="3" aria-labelledby="deloitte-title">
+      <div class="page-inner">
+        <p class="page-kicker">03 · PERFORMANCE ENGINEERING</p>
+        <h2 id="deloitte-title">Making systems<br>perform better.</h2>
+        <div class="role-heading"><span>JAN 2023 — JUN 2026</span><h3>Performance Engineer</h3><p>Deloitte USI · New Delhi / India</p></div>
+        <p>Worked across the performance-testing lifecycle, from requirements and scripting to execution, analysis, reporting, and stakeholder communication.</p>
+        <ul><li>Performed root-cause analysis and recommended performance optimisation across Azure/AWS IaaS and PaaS applications.</li><li>Contributed to LoadRunner Cloud adoption and worked with vendors to resolve issues.</li><li>Supported performance infrastructure, load generators, troubleshooting, and coordination with OpenText.</li></ul>
+        <div class="impact-number"><strong>$100k<span>+</span></strong><small>QUARTERLY COST REDUCTION CONTRIBUTION</small></div>
+        <p class="fine-print">Contribution to an initiative associated with more than US$100,000 in quarterly savings.</p>
+      </div>
+      <span class="folio" aria-hidden="true">3</span>
+    </article>
+
+    <article class="face face--page" id="experience-wd" data-chapter="Experience" data-folio="4" aria-labelledby="wd-title">
+      <div class="page-inner">
+        <p class="page-kicker">04 · TEST ENGINEERING</p>
+        <h2 id="wd-title">Testing beyond<br>the expected.</h2>
+        <div class="role-heading"><span>AUG 2021 — SEP 2022</span><h3>Test Engineer Intern</h3><p>Western Digital</p></div>
+        <p>Supported qualification and debugging for CFexpress devices, with a focus on repeatable verification and early failure investigation.</p>
+        <ul><li>Executed full CI and sanity qualifications across CFexpress capacities.</li><li>Performed preliminary debugging and failure analysis.</li><li>Contributed to design-verification testing.</li></ul>
+        <div class="xbox-callout"><span class="xbox-mark" aria-hidden="true">X</span><div><p class="section-label">RELATED PROJECT</p><strong>Microsoft Xbox expansion card</strong><p>Contributed to the project team testing an expansion card for Microsoft Xbox.</p></div></div>
+        <p class="fine-print">The work included testing support; no unsupported claim of ownership or test scope is implied.</p>
+      </div>
+      <span class="folio" aria-hidden="true">4</span>
+    </article>
+
+    <article class="face face--page" id="experience-hp" data-chapter="Experience" data-folio="5" aria-labelledby="hp-title">
+      <div class="page-inner">
+        <p class="page-kicker">05 · FRONTEND DEVELOPMENT</p>
+        <h2 id="hp-title">A better interface<br>for complex work.</h2>
+        <div class="role-heading"><span>FEB 2021 — JUN 2021</span><h3>React Developer Intern</h3><p>HP Inc.</p></div>
+        <p>Created user interfaces with React.js for cloud-based security solutions.</p>
+        <div class="mini-spec"><span aria-hidden="true">01</span><div><strong>Interface development</strong><p>Translated product requirements into clear, usable UI components.</p></div></div>
+        <div class="mini-spec"><span aria-hidden="true">02</span><div><strong>Product context</strong><p>Worked in the cloud-security space, where clarity and usability matter.</p></div></div>
+        <ul class="tag-list" aria-label="Skills used"><li>React.js</li><li>UI development</li><li>Cloud security</li></ul>
+      </div>
+      <span class="folio" aria-hidden="true">5</span>
+    </article>
+
+    <article class="face face--page" id="project" data-chapter="Project" data-folio="6" aria-labelledby="project-title">
+      <div class="page-inner">
+        <p class="page-kicker">06 · BUILDING IN PUBLIC</p>
+        <h2 id="project-title">LibraMind</h2>
+        <p class="project-subtitle">A library network management experience</p>
+        <p>A frontend project exploring how members and administrators can navigate a multi-branch library system.</p>
+        <div class="mini-spec"><span aria-hidden="true">01</span><div><strong>Member experience</strong><p>Library card details, active loans, and home-branch information.</p></div></div>
+        <div class="mini-spec"><span aria-hidden="true">02</span><div><strong>Admin workflows</strong><p>Book catalogue and branch inventory management.</p></div></div>
+        <div class="mini-spec"><span aria-hidden="true">03</span><div><strong>Loan rules</strong><p>Borrow and return across branches, up to three active loans, and no duplicate copies of the same title in a member’s loans.</p></div></div>
+        <div class="project-stamp">PROJECT NOTES <span aria-hidden="true">✳</span></div>
+        <p class="fine-print">This is a project showcase; the portfolio does not claim a production FastAPI backend is complete.</p>
+      </div>
+      <span class="folio" aria-hidden="true">6</span>
+    </article>
+
+    <article class="face face--page" id="education" data-chapter="Education" data-folio="7" aria-labelledby="education-title">
+      <div class="page-inner">
+        <p class="page-kicker">07 · EDUCATION &amp; CERTIFICATIONS</p>
+        <h2 id="education-title">A foundation<br>to build on.</h2>
+        <div class="education-block"><p class="section-label">2018</p><h3>B.Tech · Software Engineering</h3><p>Delhi Technological University</p></div>
+        <p class="section-label section-label--spaced">CERTIFICATIONS</p>
+        <div class="credential"><span aria-hidden="true">01</span><div><strong>Microsoft Certified: Azure Fundamentals</strong><small>AZ-900 · 2024</small></div></div>
+        <div class="credential"><span aria-hidden="true">02</span><div><strong>SAFe 5 Practitioner</strong><small>2023</small></div></div>
+        <div class="credential"><span aria-hidden="true">03</span><div><strong>ISTQB Foundation Level</strong><small>ISTQB certification</small></div></div>
+        <div class="recognition"><span aria-hidden="true">✳</span><p><strong>Recognised for delivery</strong><br>Received Deloitte shout-outs for meeting challenging deadlines.</p></div>
+      </div>
+      <span class="folio" aria-hidden="true">7</span>
+    </article>
+
+    <article class="face face--page" id="contact" data-chapter="Contact" data-folio="8" aria-labelledby="contact-title">
+      <div class="page-inner">
+        <p class="page-kicker">08 · CONTACT</p>
+        <h2 id="contact-title">Let’s build<br>what’s next.</h2>
+        <p class="page-lead">I’m interested in thoughtful engineering, practical software, and opportunities to keep learning.</p>
+        <div class="contact-row"><p class="section-label">EMAIL</p><a href="mailto:Anmolbh27@outlook.com">Anmolbh27@outlook.com <span aria-hidden="true">↗</span></a></div>
+        <div class="contact-row"><p class="section-label">LINKEDIN</p><a href="https://www.linkedin.com/in/bhandarianmol/" target="_blank" rel="noreferrer">linkedin.com/in/bhandarianmol <span aria-hidden="true">↗</span></a></div>
+        <div class="contact-row"><p class="section-label">LOCATION</p><strong>New Delhi, India</strong></div>
+        <a class="contact-button" href="./resume.pdf" target="_blank" rel="noreferrer">Open full résumé <span aria-hidden="true">↗</span></a>
+        <div class="last-page-note">THANK YOU FOR READING <span aria-hidden="true">✳</span></div>
+      </div>
+      <span class="folio" aria-hidden="true">8</span>
+    </article>
+
+    <article class="face face--endpaper" id="colophon" data-chapter="Contact" aria-label="Colophon">
+      <div class="page-inner colophon">
+        <p class="page-kicker">COLOPHON</p>
+        <p class="colophon-mark" aria-hidden="true">AB<span>.</span></p>
+        <p class="colophon-note">Built with curiosity,<br>TypeScript &amp; Three.js.</p>
+        <p class="colophon-fine">Set in Playfair Display, DM Sans and DM Mono.<br>© <span data-year>2026</span> Anmol Bhandari</p>
+        <a class="colophon-link" href="#cover">Back to the cover <span aria-hidden="true">↑</span></a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="reader-bar" aria-label="Book navigation">
+    <p class="reader-status" aria-live="polite"><span id="chapterName">Cover</span><span class="status-divider" aria-hidden="true">/</span><span id="pageCount">Closed</span></p>
+    <div class="rail"><span class="rail-track" aria-hidden="true"><span class="rail-fill" id="railFill"></span></span><ol class="chapter-rail" id="chapterRail"></ol></div>
+    <div class="page-controls">
+      <button id="prevSpread" type="button" aria-label="Previous pages"><span aria-hidden="true">←</span></button>
+      <button id="nextSpread" type="button" aria-label="Next pages"><span aria-hidden="true">→</span></button>
+    </div>
+  </nav>
+
+  <div class="scroll-track" id="scrollTrack" aria-hidden="true"></div>
+  <div id="bookScene" class="book-scene" aria-hidden="true"></div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
