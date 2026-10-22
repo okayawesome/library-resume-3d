@@ -39,6 +39,7 @@ let book: BookScene | null = null;
 let projector: FaceProjector | null = null;
 let webglUnavailable = false;
 let loading = false;
+let laidOut = false;
 let state: BookState | undefined;
 const pose: Pose = { px: 0, py: 0, pz: 0, rx: 0, ry: 0, rz: 0, tx: 0, ty: 0, d: 1 };
 
@@ -112,6 +113,8 @@ function loadBook(): void {
 
 /** Where the reader is, so a layout change can return them to the same page. */
 function readingPosition(): { spread: number; side: 'left' | 'right' | 'centre' } | null {
+  // Before the first layout there is no place to keep (the browser restores scroll itself).
+  if (mode === 'flow') return laidOut ? spreadOfFace(ui.flowFace) : null;
   if (!timeline || !state) return null;
   const side = timeline.mode === 'page' && state.activeSpread > 0 ? (state.focus < 0 ? 'left' : 'right') : 'centre';
   return { spread: state.activeSpread, side };
@@ -123,6 +126,7 @@ function applyLayout(): void {
   const nextMode = webglUnavailable ? 'flow' : chooseMode(view, reduced);
   if (nextMode !== 'flow') loadBook();
   const position = readingPosition();
+  laidOut = true;
   const previousUnits = scroll.target;
   const pending = ui.pendingUnits();
   const modeChanged = nextMode !== mode;

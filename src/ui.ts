@@ -71,6 +71,8 @@ export class ReaderUI {
   private introOpacity = -1;
   private pending: { units: number; at: number } | null = null;
   private flowObserver: IntersectionObserver | null = null;
+  /** Page in view in the flow layout, so switching to the book keeps the reader's place. */
+  flowFace = 0;
 
   constructor(el: Elements, spreads: Spread[], hooks: ReaderHooks) {
     this.el = el;
@@ -112,6 +114,7 @@ export class ReaderUI {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const index = this.el.faces.indexOf(entry.target as HTMLElement);
+        this.flowFace = index;
         this.setActive(spreadOfFace(index).spread, index);
       }
     }, { rootMargin: '-45% 0px -50% 0px' });
